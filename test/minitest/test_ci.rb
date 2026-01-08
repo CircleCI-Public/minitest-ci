@@ -27,7 +27,7 @@ class MockTestSuite < Minitest::Test
   end
 
   def test_invalid_error_name
-    raise Class.new(Exception)
+    raise Class.new(Exception) # this isn't marshalable, so it isn't allowed
   end
 
   def test_escaping_failure_message
@@ -145,7 +145,7 @@ class TestMinitest::TestCiPlugin < Minitest::Test
 
   def test_testcase_error_with_invalid_name
     error = @doc.at_xpath('/testsuite/testcase[@name="test_invalid_error_name"]')
-    assert_match( /^#<Class/, error.at_xpath('error')['message'] )
+    assert_match( /Neutered Exception/, error.at_xpath('error')['message'] )
     assert_equal '0', error['assertions']
   end
 
