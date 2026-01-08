@@ -14,9 +14,9 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'minitest', '>= 5.0.6'
 
-  s.add_development_dependency 'bundler', '~> 1.14'
-  s.add_development_dependency 'rake', '~> 12.0.0'
-  s.add_development_dependency 'nokogiri', '~> 1.7.1'
+  s.add_development_dependency 'bundler', '~> 2.7'
+  s.add_development_dependency 'rake', '~> 13.0'
+  s.add_development_dependency 'nokogiri', '~> 1.19'
   s.add_development_dependency 'rdoc', '>= 2.4.2'
   s.add_development_dependency 'json', '>= 2.0.0'
   s.add_development_dependency 'ZenTest'

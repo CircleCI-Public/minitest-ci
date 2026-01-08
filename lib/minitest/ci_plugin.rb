@@ -1,5 +1,5 @@
 require 'fileutils'
-require 'cgi'
+require 'cgi/escape'
 require 'time'
 require 'digest'
 

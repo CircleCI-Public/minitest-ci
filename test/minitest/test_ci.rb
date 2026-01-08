@@ -27,7 +27,7 @@ class MockTestSuite < Minitest::Test
   end
 
   def test_invalid_error_name
-    raise Class.new(Exception)
+    raise Class.new(Exception) # this isn't marshalable, so it isn't allowed
   end
 
   def test_escaping_failure_message
@@ -60,7 +60,12 @@ Minitest::Ci.clean = false
 # setup test files
 reporter = Minitest::Ci.new $ci_io
 reporter.start
-Minitest.__run reporter, {}
+Minitest.seed = 42
+if Minitest.respond_to? :__run then
+  Minitest.__run reporter, {}
+else
+  Minitest.run_all_suites reporter, {} # WTF is this for?
+end
 reporter.report
 
 Minitest::Runnable.reset
@@ -140,7 +145,7 @@ class TestMinitest::TestCiPlugin < Minitest::Test
 
   def test_testcase_error_with_invalid_name
     error = @doc.at_xpath('/testsuite/testcase[@name="test_invalid_error_name"]')
-    assert_match( /^#<Class/, error.at_xpath('error')['message'] )
+    assert_match( /Neutered Exception/, error.at_xpath('error')['message'] )
     assert_equal '0', error['assertions']
   end
 
@@ -188,24 +193,24 @@ class TestMinitest::TestCiLoading < Minitest::Test
   def test_with_ci_required_explicitly
     test_file = File.expand_path("../../ci_loading_examples/with_ci_required_explicitly.rb", __FILE__)
     system "ruby", test_file, "--no-ci-clean", out: output.path
-    assert output.read.include?("[Minitest::CI] Generating test report in JUnit XML format...")
+    assert_includes output.read, "[Minitest::CI] Generating test report in JUnit XML format..."
   end
 
   def test_with_ci_required_implicitly
     test_file = File.expand_path("../../ci_loading_examples/with_ci_required_implicitly.rb", __FILE__)
     system "ruby", test_file, "--no-ci-clean", out: output.path
-    assert output.read.include?("[Minitest::CI] Generating test report in JUnit XML format...")
+    assert_includes output.read, "[Minitest::CI] Generating test report in JUnit XML format..."
   end
 
   def test_without_ci_required
     test_file = File.expand_path("../../ci_loading_examples/without_ci_required.rb", __FILE__)
     system "ruby", test_file, "--no-ci-clean", out: output.path
-    refute output.read.include?("[Minitest::CI] Generating test report in JUnit XML format...")
+    refute_includes output.read, "[Minitest::CI] Generating test report in JUnit XML format..."
   end
 
   def test_without_ci_required_with_ci_report_option
     test_file = File.expand_path("../../ci_loading_examples/without_ci_required.rb", __FILE__)
     system "ruby", test_file, "--no-ci-clean", "--ci-report", out: output.path
-    assert output.read.include?("[Minitest::CI] Generating test report in JUnit XML format...")
+    assert_includes output.read, "[Minitest::CI] Generating test report in JUnit XML format..."
   end
 end
