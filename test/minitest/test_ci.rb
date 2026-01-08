@@ -60,7 +60,12 @@ Minitest::Ci.clean = false
 # setup test files
 reporter = Minitest::Ci.new $ci_io
 reporter.start
-Minitest.__run reporter, {}
+Minitest.seed = 42
+if Minitest.respond_to? :__run then
+  Minitest.__run reporter, {}
+else
+  Minitest.run_all_suites reporter, {} # WTF is this for?
+end
 reporter.report
 
 Minitest::Runnable.reset
