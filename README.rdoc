@@ -1,5 +1,7 @@
 = minitest-ci
 
+⚠️ This project is no longer actively maintained by CircleCI. We are happy to hand it over to anyone in the community who wants to continue maintaining `minitest-ci` for the benefit of the Ruby community.
+
 {<img src="https://circleci.com/gh/circleci/minitest-ci.svg?style=svg" alt="Circle CI" />}[https://circleci.com/gh/circleci/minitest-ci]
 
 * https://github.com/circleci/minitest-ci
