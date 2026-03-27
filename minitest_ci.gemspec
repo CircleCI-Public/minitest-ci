@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = %w(zzak bhenderson notnoop)
   s.email       = ['sayhi@circleci.com']
-  s.homepage    = 'https://github.com/circleci/minitest-ci'
+  s.homepage    = 'https://github.com/CircleCI-Public/minitest-ci'
   s.summary     = 'Minitest JUnit XML formatter'
   s.description = 'Minitest Junit XML results that CircleCI can read.'
 
